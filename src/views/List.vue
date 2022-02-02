@@ -10,9 +10,38 @@
         >
           Editar
         </b-button>
-        <b-button variant="outline-danger">Excluir</b-button>
+        <b-button
+          variant="outline-danger"
+          @click="remove(task, index)"
+        >
+          Excluir
+        </b-button>
       </b-card>
     </div>
+    <b-modal
+      ref="modalRemove"
+      hide-footer
+      title="Exclusão de tarefa"
+    >
+      <div class="d-block text-center">
+        Deseja realmente excluir essa tarefa? <b>{{ taskSelected.subject }}</b>
+      </div>
+      <div class="mt-3 d-flex justify-content-end">
+        <b-button
+          variant="outline-secondary"
+          class="mr-2"
+          @click="hideModal"
+        >
+          Cancelar
+        </b-button>
+        <b-button
+          variant="outline-danger"
+          @click="confirmRemoveTask(task, index)"
+        >
+          Excluir
+        </b-button>
+      </div>
+    </b-modal>
   </div>
 </template>
 
@@ -21,7 +50,8 @@ export default {
   name: 'List',
   data () {
     return {
-      tasks: []
+      tasks: [],
+      taskSelected: []
     }
   },
   created () {
@@ -30,6 +60,19 @@ export default {
   methods: {
     edit (index) {
       this.$router.push({ name: 'form', params: { index } })
+    },
+    remove (task, index) {
+      this.taskSelected = task
+      this.taskSelected.index = index
+      this.$refs.modalRemove.show()
+    },
+    hideModal () {
+      this.$refs.modalRemove.hide()
+    },
+    confirmRemoveTask () {
+      this.tasks.splice(this.taskSelected.index, 1)
+      localStorage.setItem('tasks', JSON.stringify(this.tasks))
+      this.hideModal()
     }
   }
 }
