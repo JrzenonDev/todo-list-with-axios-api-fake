@@ -20,7 +20,7 @@
         label="Descrição"
         label-for="description"
       >
-        <b-form-textare
+        <b-form-textarea
           id="description"
           v-model="form.description"
           type="text"
@@ -28,10 +28,16 @@
           required
           autocomplete="off"
         >
-        </b-form-textare>
+        </b-form-textarea>
       </b-form-group>
 
-      <b-button type="submit" variant="outline-primary"> Salvar </b-button>
+      <b-button
+        type="submit"
+        variant="outline-primary"
+        @click="saveTask"
+      >
+      Salvar
+      </b-button>
     </b-form>
   </div>
 </template>
@@ -45,6 +51,14 @@ export default {
         subject: '',
         description: ''
       }
+    }
+  },
+  methods: {
+    saveTask () {
+      const tasks = (localStorage.getItem('tasks')) ? JSON.parse(localStorage.getItem('tasks')) : []
+      tasks.push(this.form)
+      localStorage.setItem('tasks', JSON.stringify(tasks))
+      this.$router.push({ name: 'list' })
     }
   }
 }
