@@ -46,8 +46,11 @@
 </template>
 
 <script>
+import ToastMixin from '@/mixins/toastMixins.js'
+
 export default {
   name: 'List',
+  mixins: [ToastMixin],
   data () {
     return {
       tasks: [],
@@ -73,6 +76,7 @@ export default {
       this.tasks.splice(this.taskSelected.index, 1)
       localStorage.setItem('tasks', JSON.stringify(this.tasks))
       this.hideModal()
+      this.showToast('success', 'Sucesso', 'Tarefa removida com sucesso!')
     }
   }
 }
