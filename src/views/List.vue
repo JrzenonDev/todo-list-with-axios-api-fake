@@ -13,7 +13,7 @@
           </b-button>
           <b-button
             variant="outline-danger"
-            @click="remove(task, index)"
+            @click="remove(task.id)"
           >
             Excluir
           </b-button>
@@ -80,17 +80,18 @@ export default {
     edit (taskId) {
       this.$router.push({ name: 'form', params: { taskId } })
     },
-    remove (task, index) {
-      this.taskSelected = task
-      this.taskSelected.index = index
+    async remove (taskId) {
+      this.taskSelected = await TasksModel.find(taskId)
+
       this.$refs.modalRemove.show()
     },
     hideModal () {
       this.$refs.modalRemove.hide()
     },
-    confirmRemoveTask () {
-      this.tasks.splice(this.taskSelected.index, 1)
-      localStorage.setItem('tasks', JSON.stringify(this.tasks))
+    async confirmRemoveTask () {
+      this.taskSelected.delete()
+      this.tasks = await TasksModel.get()
+
       this.hideModal()
       this.showToast('success', 'Sucesso', 'Tarefa removida com sucesso!')
     }
