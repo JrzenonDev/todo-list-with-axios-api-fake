@@ -1,13 +1,13 @@
 <template>
   <div class="container mt-2">
     <template v-if="!isTaskEmpty">
-      <div v-for="(task, index) in tasks" :key="index">
+      <div v-for="(task) in tasks" :key="task.id">
         <b-card :title="task.subject" class="mb-2">
           <b-card-text>{{ task.description }}</b-card-text>
           <b-button
             variant="outline-secondary"
             class="mr-2"
-            @click="edit(index)"
+            @click="edit(task.id)"
           >
             Editar
           </b-button>
@@ -77,8 +77,8 @@ export default {
     this.tasks = await TasksModel.get()
   },
   methods: {
-    edit (index) {
-      this.$router.push({ name: 'form', params: { index } })
+    edit (taskId) {
+      this.$router.push({ name: 'form', params: { taskId } })
     },
     remove (task, index) {
       this.taskSelected = task
