@@ -50,7 +50,6 @@
         type="submit"
         variant="outline-primary"
         @click="saveTask"
-        :disabled="!getValidation"
       >
       Salvar
       </b-button>
@@ -62,7 +61,7 @@
 import ToastMixin from '@/mixins/toastMixins.js'
 import { required, minLength } from 'vuelidate/lib/validators'
 import TasksModel from '@/models/TasksModel'
-import Status from '@/valueObject/status'
+import Status from '@/valueObjects/status'
 
 export default {
   name: 'Form',
@@ -98,6 +97,9 @@ export default {
   },
   methods: {
     saveTask () {
+      this.$v.$touch()
+      if (this.$v.$error) return
+
       if (this.methodSave === 'update') {
         this.form.save()
 
