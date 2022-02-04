@@ -4,6 +4,20 @@
       <div v-for="(task) in tasks" :key="task.id">
         <b-card :title="task.subject" class="mb-2">
           <b-card-text>{{ task.description }}</b-card-text>
+           <b-button
+            variant="outline-secondary"
+            class="mr-2"
+            @click="updateStatus(task.id, status.FINISHED)"
+          >
+            Concluir
+          </b-button>
+          <b-button
+            variant="outline-secondary"
+            class="mr-2"
+            @click="updateStatus(task.id, status.ARCHIVED)"
+          >
+            Arquivar
+          </b-button>
           <b-button
             variant="outline-secondary"
             class="mr-2"
@@ -63,6 +77,7 @@
 <script>
 import ToastMixin from '@/mixins/toastMixins.js'
 import TasksModel from '@/models/TasksModel'
+import Status from '@/valueObjects/status'
 
 export default {
   name: 'List',
@@ -70,11 +85,17 @@ export default {
   data () {
     return {
       tasks: [],
-      taskSelected: []
+      taskSelected: [],
+      status: Status
     }
   },
   async created () {
-    this.tasks = await TasksModel.get()
+    this.tasks = await TasksModel.params({
+      status: [
+        this.status.OPEN,
+        this.status.FINISHED
+      ]
+    }).get()
   },
   methods: {
     edit (taskId) {
@@ -90,10 +111,28 @@ export default {
     },
     async confirmRemoveTask () {
       this.taskSelected.delete()
-      this.tasks = await TasksModel.get()
+      this.tasks = await TasksModel.params({
+        status: [
+          this.status.OPEN,
+          this.status.FINISHED
+        ]
+      }).get()
 
       this.hideModal()
       this.showToast('success', 'Sucesso', 'Tarefa removida com sucesso!')
+    },
+    async updateStatus (taskId, status) {
+      const task = await TasksModel.find(taskId)
+      task.status = status
+      await task.save()
+
+      this.tasks = await TasksModel.params({
+        status: [
+          this.status.OPEN,
+          this.status.FINISHED
+        ]
+      }).get()
+      this.showToast('success', 'Sucesso', 'Status da tarefa atualizado com sucesso!')
     }
   },
   computed: {
