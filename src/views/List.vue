@@ -2,7 +2,11 @@
   <div class="container mt-2">
     <template v-if="!isTaskEmpty">
       <div v-for="(task) in tasks" :key="task.id">
-        <b-card :title="task.subject" class="mb-2">
+        <b-card
+          :title="task.subject"
+          class="mb-2"
+          :class="{ 'finished-task': isFinished(task) }"
+        >
           <b-card-text>{{ task.description }}</b-card-text>
            <b-button
             variant="outline-secondary"
@@ -133,6 +137,11 @@ export default {
         ]
       }).get()
       this.showToast('success', 'Sucesso', 'Status da tarefa atualizado com sucesso!')
+    },
+    isFinished (task) {
+      if (task.status === this.status.FINISHED) {
+        return true
+      }
     }
   },
   computed: {
@@ -153,5 +162,11 @@ export default {
   .empty-data-image {
     width: 300px;
     height: 300px;
+  }
+  .finished-task {
+    opacity: 0.7;
+  }
+  .finished-task > .card-body > h4, .finished-task > .card-body > p {
+    text-decoration: line-through;
   }
 </style>
