@@ -34,6 +34,18 @@
         </b-form-textarea>
       </b-form-group>
 
+      <b-form-group
+        label="Status"
+        label-for="status"
+      >
+        <b-form-select
+          id="status"
+          v-model="form.status"
+          :options="optionsList"
+        >
+        </b-form-select>
+      </b-form-group>
+
       <b-button
         type="submit"
         variant="outline-primary"
@@ -50,6 +62,7 @@
 import ToastMixin from '@/mixins/toastMixins.js'
 import { required, minLength } from 'vuelidate/lib/validators'
 import TasksModel from '@/models/TasksModel'
+import Status from '@/valueObject/status'
 
 export default {
   name: 'Form',
@@ -58,9 +71,15 @@ export default {
     return {
       form: {
         subject: '',
-        description: ''
+        description: '',
+        status: ''
       },
-      methodSave: 'new'
+      methodSave: 'new',
+      optionsList: [
+        { value: Status.OPEN, text: 'Aberto' },
+        { value: Status.FINISHED, text: 'Concluído' },
+        { value: Status.ARCHIVED, text: 'Arquivado' }
+      ]
     }
   },
   validations: {
