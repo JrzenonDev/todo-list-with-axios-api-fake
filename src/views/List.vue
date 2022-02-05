@@ -1,5 +1,22 @@
 <template>
   <div class="container mt-2">
+
+    <b-form inline class="mb-2">
+      <b-form-input
+        v-model="filter.subject"
+        id="subject"
+        placeholder="Ex: lavar carro"
+        class="mr-2"
+        autocomplete="off"
+      />
+      <b-form-select
+        v-model="filter.status"
+        :options="optionsList"
+        class="mr-2"
+      />
+      <b-button variant="outline-secondary">Buscar</b-button>
+    </b-form>
+
     <template v-if="!isTaskEmpty">
       <div v-for="(task) in tasks" :key="task.id">
         <b-card
@@ -90,7 +107,17 @@ export default {
     return {
       tasks: [],
       taskSelected: [],
-      status: Status
+      status: Status,
+      filter: {
+        subject: null,
+        status: null
+      },
+      optionsList: [
+        { value: null, text: 'Selecione algum status' },
+        { value: Status.OPEN, text: 'Aberto' },
+        { value: Status.FINISHED, text: 'Concluído' },
+        { value: Status.ARCHIVED, text: 'Arquivado' }
+      ]
     }
   },
   async created () {
