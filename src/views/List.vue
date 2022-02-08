@@ -21,6 +21,13 @@
       >
         Buscar
       </b-button>
+      <b-button
+        @click="clearFilter"
+        class="mr-2"
+        variant="outline-secondary"
+      >
+        Limpar filtro
+      </b-button>
     </b-form>
 
     <template v-if="!isTaskEmpty">
@@ -187,6 +194,18 @@ export default {
         }
       }
       return obj
+    },
+    async clearFilter () {
+      this.filter = {
+        subject: null,
+        status: null
+      }
+      this.tasks = await TasksModel.params({
+        status: [
+          this.status.OPEN,
+          this.status.FINISHED
+        ]
+      }).get()
     }
   },
   computed: {
