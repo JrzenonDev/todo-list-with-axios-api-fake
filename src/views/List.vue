@@ -14,7 +14,13 @@
         :options="optionsList"
         class="mr-2"
       />
-      <b-button variant="outline-secondary">Buscar</b-button>
+      <b-button
+        @click="filterTasks"
+        class="mr-2"
+        variant="outline-secondary"
+      >
+        Buscar
+      </b-button>
     </b-form>
 
     <template v-if="!isTaskEmpty">
@@ -169,6 +175,18 @@ export default {
       if (task.status === this.status.FINISHED) {
         return true
       }
+    },
+    async filterTasks () {
+      const filter = this.clean(this.filter)
+      this.tasks = await TasksModel.params(filter).get()
+    },
+    clean (obj) {
+      for (var propName in obj) {
+        if (obj[propName] === null || obj[propName === undefined]) {
+          delete obj[propName]
+        }
+      }
+      return obj
     }
   },
   computed: {
