@@ -184,7 +184,8 @@ export default {
       }
     },
     async filterTasks () {
-      const filter = this.clean(this.filter)
+      let filter = { ...this.filter }
+      filter = this.clean(filter)
       this.tasks = await TasksModel.params(filter).get()
     },
     clean (obj) {
