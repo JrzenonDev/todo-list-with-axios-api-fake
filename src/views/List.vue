@@ -39,7 +39,11 @@
           <div class="d-flex justify-content-between">
             <b-card-title>{{ task.subject }}</b-card-title>
             <span>
-              <b-badge>{{ overduePresenter(task.dateOverdue) }}</b-badge>
+              <b-badge
+                :variant="variantOverdue(task.dateOverdue, task.status)"
+              >
+                {{ overduePresenter(task.dateOverdue) }}
+              </b-badge>
             </span>
           </div>
           <b-card-text>{{ task.description }}</b-card-text>
@@ -218,6 +222,24 @@ export default {
         return
       }
       return dateOverdue.split('-').reverse().join('/')
+    },
+    variantOverdue (dateOverdue, taskStatus) {
+      if (!dateOverdue) {
+        return 'light'
+      }
+      if (taskStatus === this.status.FINISHED) {
+        return 'success'
+      }
+
+      const dateNow = new Date().toISOString().split('T')[0]
+      if (dateOverdue === dateNow) {
+        return 'warning'
+      }
+      if (dateOverdue < dateNow) {
+        return 'danger'
+      }
+
+      return 'light'
     }
   },
   computed: {
