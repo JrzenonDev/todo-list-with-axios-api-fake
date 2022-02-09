@@ -54,6 +54,7 @@
           id="dateOverdue"
           v-model="form.dateOverdue"
           label-no-date-selected="Selecione um data"
+          :min="getToday()"
         />
       </b-form-group>
 
@@ -125,6 +126,9 @@ export default {
 
       this.showToast('success', 'Sucesso', 'Tarefa cadastrada com sucesso!')
       this.$router.push({ name: 'list' })
+    },
+    getToday () {
+      return new Date().toISOString().split('T')[0]
     }
   },
   computed: {
