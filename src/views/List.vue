@@ -149,12 +149,14 @@ export default {
     }
   },
   async created () {
+    this.isLoading = true
     this.tasks = await TasksModel.params({
       status: [
         this.status.OPEN,
         this.status.FINISHED
       ]
     }).get()
+    this.isLoading = false
   },
   methods: {
     edit (taskId) {
