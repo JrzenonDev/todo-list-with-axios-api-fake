@@ -30,7 +30,24 @@
       </b-button>
     </b-form>
 
-    <template v-if="!isTaskEmpty">
+    <template v-if="isLoading">
+      <div class="loading-spin">
+        <b-spinner style="width: 5rem; height: 5rem;" />
+      </div>
+    </template>
+    <template v-if="isTaskEmpty && !isLoading">
+      <div class="empty-data mt-2">
+        <img src="../assets/images/empty-data.svg" class="empty-data-image">
+        <b-button
+          variant="outline-primary mt-2"
+          size="lg"
+          to="/form"
+        >
+          Criar tarefas
+        </b-button>
+      </div>
+    </template>
+    <template v-if="!isTaskEmpty && !isLoading">
       <div v-for="(task) in tasks" :key="task.id">
         <b-card
           class="mb-2"
@@ -75,18 +92,6 @@
             Excluir
           </b-button>
         </b-card>
-      </div>
-    </template>
-    <template v-else>
-      <div class="empty-data mt-2">
-        <img src="../assets/images/empty-data.svg" class="empty-data-image">
-        <b-button
-          variant="outline-primary mt-2"
-          size="lg"
-          to="/form"
-        >
-          Criar tarefas
-        </b-button>
       </div>
     </template>
 
@@ -139,7 +144,8 @@ export default {
         { value: Status.OPEN, text: 'Aberto' },
         { value: Status.FINISHED, text: 'Concluído' },
         { value: Status.ARCHIVED, text: 'Arquivado' }
-      ]
+      ],
+      isLoading: false
     }
   },
   async created () {
@@ -266,5 +272,11 @@ export default {
   }
   .finished-task > .card-body > h4, .finished-task > .card-body > p {
     text-decoration: line-through;
+  }
+  .loading-spin {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 65vh;
   }
 </style>
