@@ -18,15 +18,19 @@
         @click="filterTasks"
         class="mr-2"
         variant="outline-secondary"
+        v-b-tooltip.hover
+        title="Buscar"
       >
-        Buscar
+        <i class="fas fa-search"></i>
       </b-button>
       <b-button
         @click="clearFilter"
         class="mr-2"
         variant="outline-secondary"
+        v-b-tooltip.hover
+        title="Limpar filtros"
       >
-        Limpar filtro
+        <i class="fas fa-times"></i>
       </b-button>
     </b-form>
 
@@ -68,28 +72,36 @@
             variant="outline-secondary"
             class="mr-2"
             @click="updateStatus(task.id, status.FINISHED)"
+            v-b-tooltip.hover
+            title="Concluir tarefa"
           >
-            Concluir
+            <i class="fas fa-check"></i>
           </b-button>
           <b-button
             variant="outline-secondary"
             class="mr-2"
             @click="updateStatus(task.id, status.ARCHIVED)"
+            v-b-tooltip.hover
+            title="Arquivar tarefa"
           >
-            Arquivar
+            <i class="fas fa-archive"></i>
           </b-button>
           <b-button
             variant="outline-secondary"
             class="mr-2"
             @click="edit(task.id)"
+            v-b-tooltip.hover
+            title="Editar tarefa"
           >
-            Editar
+            <i class="fas fa-edit"></i>
           </b-button>
           <b-button
             variant="outline-danger"
             @click="remove(task.id)"
+            v-b-tooltip.hover
+            title="Excluir tarefa"
           >
-            Excluir
+            <i class="fas fa-times"></i>
           </b-button>
         </b-card>
       </div>
