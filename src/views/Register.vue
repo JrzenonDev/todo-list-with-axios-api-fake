@@ -1,7 +1,7 @@
 <template>
   <b-row class="vh-100 vw-100 row-login">
     <b-col sm="7" class="d-flex justify-content-center align-items-center right-register">
-      <img class="img-login" src="../assets/images/create.svg" alt="Login" />
+      <img class="img-register" src="../assets/images/create.svg" alt="Login" />
     </b-col>
     <b-col sm="5" class="d-flex justify-content-center align-items-center right-register">
       <div class="col-8">
@@ -70,7 +70,7 @@
             type="button"
             variant="outline-secondary"
             block
-            @click="register"
+            @click="goToLogin"
           >
             <i class="fas fa-arrow-left" /> Voltar
           </b-button>
@@ -122,7 +122,9 @@ export default {
         return true
       }
     },
-    register () {},
+    goToLogin () {
+      this.$router.push({ name: 'login' })
+    },
     getValidation (field) {
       if (this.$v.$dirty === false) {
         return null
@@ -151,7 +153,7 @@ export default {
   .title-register {
     font-weight: bold;
   }
-  .img-login {
+  .img-register {
     width: 600px;
     height: 600px;
   }

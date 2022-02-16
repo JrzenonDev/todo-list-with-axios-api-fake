@@ -90,7 +90,9 @@ export default {
         return true
       }
     },
-    register () {},
+    register () {
+      this.$router.push({ name: 'register' })
+    },
     getValidation (field) {
       if (this.$v.$dirty === false) {
         return null
