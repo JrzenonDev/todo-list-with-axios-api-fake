@@ -50,7 +50,9 @@
         </b-form>
       </div>
     </b-col>
-    <b-col sm="7"></b-col>
+    <b-col class="d-flex justify-content-center align-items-center left-login" sm="7">
+      <img class="img-login" src="../assets/images/login.svg" alt="Login" />
+    </b-col>
   </b-row>
 </template>
 
@@ -89,5 +91,9 @@ export default {
   }
   .title-login {
     font-weight: bold;
+  }
+  .img-login {
+    width: 600px;
+    height: 600px;
   }
 </style>
