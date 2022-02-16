@@ -61,7 +61,7 @@
             type="button"
             variant="primary"
             block
-            @click="login"
+            @click="register"
           >
             <i class="fas fa-sign-in-alt" /> Cadastrar
           </b-button>
@@ -82,8 +82,11 @@
 
 <script>
 import { required, minLength, email, sameAs } from 'vuelidate/lib/validators'
+import UsersModel from '@/models/UsersModel'
+import ToastMixin from '@/mixins/toastMixins.js'
 
 export default {
+  mixins: [ToastMixin],
   name: 'Login',
   data () {
     return {
@@ -116,11 +119,18 @@ export default {
     }
   },
   methods: {
-    login () {
+    register () {
       this.$v.$touch()
       if (this.$v.$error) {
         return true
       }
+
+      const user = new UsersModel(this.form)
+      user.save()
+
+      this.showToast('success', 'Sucesso', 'Usuário cadastrado com sucesso!')
+
+      this.goToLogin()
     },
     goToLogin () {
       this.$router.push({ name: 'login' })
