@@ -2,7 +2,7 @@
   <b-row class="vh-100 vw-100 row-login">
     <b-col sm="5" class="d-flex justify-content-center align-items-center left-login">
       <div class="col-8">
-        <h2>Faça o login</h2>
+        <h2 class="text-center mb-5 title-login">Faça o login</h2>
         <b-form>
           <b-form-group
             label="E-mail"
@@ -17,9 +17,12 @@
             />
           </b-form-group>
           <b-form-group
-            label="Senha"
             label-for="password"
           >
+            <label for="password" class="d-flex justify-content-between">
+              Senha
+              <small><a href="#">Esqueceu sua senha?</a></small>
+            </label>
             <b-form-input
               id="password"
               type="password"
@@ -27,6 +30,23 @@
               v-model="form.password"
             />
           </b-form-group>
+          <b-button
+            type="button"
+            variant="primary"
+            block
+            @click="login"
+          >
+            <i class="fas fa-sign-in-alt" /> Entrar
+          </b-button>
+          <hr />
+          <b-button
+            type="button"
+            variant="outline-secondary"
+            block
+            @click="register"
+          >
+            <i class="fas fa-use-plus" /> Não tenho conta
+          </b-button>
         </b-form>
       </div>
     </b-col>
@@ -44,6 +64,10 @@ export default {
         password: ''
       }
     }
+  },
+  methods: {
+    login () {},
+    register () {}
   }
 }
 </script>
@@ -62,5 +86,8 @@ export default {
   }
   .left-login {
     background-color: #f2f2f2;
+  }
+  .title-login {
+    font-weight: bold;
   }
 </style>
