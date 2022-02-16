@@ -31,7 +31,7 @@ export default {
   name: 'App',
   computed: {
     notIsLoginPage () {
-      return this.$route.name !== 'login'
+      return this.$route.name !== 'login' && this.$route.name !== 'register'
     }
   }
 }
