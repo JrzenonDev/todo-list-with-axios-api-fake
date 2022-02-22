@@ -94,10 +94,7 @@ export default {
       }
 
       let user = await UsersModel.params({ email: this.form.email }).get()
-      console.log(user)
       if (!user || !user[0] || !user[0].email) {
-        console.log('teste if')
-
         this.showToast('danger', 'Erro!', 'Usuário e/ou senha incorretos')
         this.clearForm()
         return
