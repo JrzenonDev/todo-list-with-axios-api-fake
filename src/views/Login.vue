@@ -60,9 +60,12 @@
 
 <script>
 import { required, minLength, email } from 'vuelidate/lib/validators'
+import UsersModel from '@/models/UsersModel'
+import ToastMixin from '@/mixins/toastMixins.js'
 
 export default {
   name: 'Login',
+  mixins: [ToastMixin],
   data () {
     return {
       form: {
@@ -84,10 +87,36 @@ export default {
     }
   },
   methods: {
-    login () {
+    async login () {
       this.$v.$touch()
       if (this.$v.$error) {
         return true
+      }
+
+      let user = await UsersModel.params({ email: this.form.email }).get()
+      console.log(user)
+      if (!user || !user[0] || !user[0].email) {
+        console.log('teste if')
+
+        this.showToast('danger', 'Erro!', 'Usuário e/ou senha incorretos')
+        this.clearForm()
+        return
+      }
+
+      user = user[0]
+      if (user.password !== this.form.password) {
+        this.showToast('danger', 'Erro!', 'Usuário e/ou senha incorretos')
+        this.clearForm()
+        return
+      }
+
+      localStorage.setItem('authUser', JSON.stringify(user))
+      this.$router.push({ name: 'list' })
+    },
+    clearForm () {
+      this.form = {
+        email: '',
+        password: ''
       }
     },
     register () {
